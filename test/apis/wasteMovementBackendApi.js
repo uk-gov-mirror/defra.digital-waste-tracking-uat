@@ -108,7 +108,7 @@ export class WasteMovementBackendAPI extends BaseAPI {
       Authorization: `Basic ${base64Credentials}`,
       'Content-Type': 'application/json',
       'x-cdp-request-id': randomUUID(),
-      'x-dwt-client-id': randomUUID()
+      'x-dwt-client-id': globalThis.testConfig.cognitoClientId
     }
     if (globalThis.testConfig.cdpDevApiKey != null) {
       requestHeaders['x-api-key'] = globalThis.testConfig.cdpDevApiKey
