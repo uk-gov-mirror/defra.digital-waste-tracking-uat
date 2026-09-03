@@ -29,6 +29,31 @@ describe('Carrier Contact Details Validation', () => {
     )
   })
 
+  describe('Missing Carrier Details', () => {
+    it('should reject waste movement when carrier details are missing @allure.label.tag:DWTA-378', async () => {
+      await addAllureLink('/DWTA-378', 'DWTA-378', 'jira')
+      delete wasteReceiptData.carrier
+
+      const response =
+        await globalThis.apis.wasteMovementExternalAPI.receiveMovement(
+          wasteReceiptData
+        )
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json).toEqual({
+        validation: {
+          errors: [
+            {
+              key: 'carrier',
+              errorType: 'NotProvided',
+              message: '"carrier" is required'
+            }
+          ]
+        }
+      })
+    })
+  })
+
   it(
     'should allow waste movement to be created when carrier has minimal required fields' +
       ' @allure.label.tag:DWT-342',

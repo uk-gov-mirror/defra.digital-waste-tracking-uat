@@ -21,6 +21,31 @@ describe('Waste Weight value Validation', () => {
   })
 
   describe('Waste Weight value Validation for weight object in "wasteItems" array', () => {
+    describe('Missing Weight Object', () => {
+      it('should reject create movement submission when weight object is missing @allure.label.tag:DWTA-373', async () => {
+        await addAllureLink('/DWTA-373', 'DWTA-373', 'jira')
+        delete wasteReceiptData.wasteItems[0].weight
+
+        const response =
+          await globalThis.apis.wasteMovementExternalAPI.receiveMovement(
+            wasteReceiptData
+          )
+
+        expect(response.statusCode).toBe(400)
+        expect(response.json).toEqual({
+          validation: {
+            errors: [
+              {
+                key: 'wasteItems.0.weight',
+                errorType: 'NotProvided',
+                message: '"wasteItems[0].weight" is required'
+              }
+            ]
+          }
+        })
+      })
+    })
+
     it(
       'should reject create movement submission when weight value is missing' +
         ' @allure.label.tag:DWT-332',
