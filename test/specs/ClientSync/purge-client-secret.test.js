@@ -6,7 +6,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
   let createdClientId
 
   beforeEach(async () => {
-    await addAllureLink('/DWTSPI-45', 'DWTSPI-45', 'jira')
+    await addAllureLink('/DWTSPI-453', 'DWTSPI-453', 'jira')
     createdClientId = undefined
   })
 
@@ -21,7 +21,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
   describe('Valid secret purge', () => {
     it(
       'should remove the oldest secret and keep the newest one usable' +
-        ' @allure.label.tag:DWTSPI-45 @Authentication',
+        ' @allure.label.tag:DWTSPI-453 @Authentication',
       async () => {
         const clientName = `UAT_Purge_${Date.now()}`
         const { statusCode: createStatus, json: created } =
@@ -67,7 +67,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
 
     it(
       'should return 204 when the client has only one secret and leave that secret usable' +
-        ' @allure.label.tag:DWTSPI-45 @Authentication',
+        ' @allure.label.tag:DWTSPI-453 @Authentication',
       async () => {
         const { statusCode: createStatus, json: created } =
           await globalThis.apis.wasteMovementClientSyncAPI.createClient(
@@ -98,7 +98,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
   describe('Invalid secret purge', () => {
     it(
       'should return 404 when clientId is not found' +
-        ' @allure.label.tag:DWTSPI-45',
+        ' @allure.label.tag:DWTSPI-453',
       async () => {
         const clientId = 'unknownclientid123'
         const { statusCode, json } =
@@ -117,7 +117,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
 
     it(
       'should return 400 when tenantServiceName does not match the required pattern' +
-        ' @allure.label.tag:DWTSPI-45',
+        ' @allure.label.tag:DWTSPI-453',
       async () => {
         const { statusCode, json } =
           await globalThis.apis.wasteMovementClientSyncAPI.purgeClientSecret(
@@ -141,7 +141,7 @@ describe('Purge the oldest client secret in DWT Client Sync Service', () => {
 
     it(
       'should return 404 when tenantServiceName is not managed, but clientId is valid' +
-        ' @allure.label.tag:DWTSPI-45',
+        ' @allure.label.tag:DWTSPI-453',
       async () => {
         const { statusCode: createStatus, json: created } =
           await globalThis.apis.wasteMovementClientSyncAPI.createClient(
