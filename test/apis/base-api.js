@@ -173,7 +173,11 @@ export class BaseAPI {
       dispatcher: this.agent
     })
 
-    const json = await response.body.json()
+    const bodyText = await response.body.text()
+    let json = null
+    if (bodyText) {
+      json = JSON.parse(bodyText)
+    }
 
     // Log response to Allure
     await logAllureResponse(
